@@ -18,6 +18,9 @@ zuul:
     crowd-portal:
       service-id: welisit-crowd-auth
       path: /**
+    crowd-project:
+      service-id: welisit-crowd-project
+      path: /project/**
 ribbon:
   ConnectTimeout: 3000
   ReadTimeout: 60000
