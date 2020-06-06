@@ -1,0 +1,23 @@
+server: 
+  port: 80 
+spring: 
+  application: 
+    name: welisit-crowd-zuul
+  redis:
+    host: 127.0.0.1
+  session:
+    store-type: redis
+eureka: 
+  client: 
+    service-url: 
+      defaultZone: http://localhost:1000/eureka
+zuul:
+  ignored-services: "*"
+  sensitive-headers: ""
+  routes:
+    crowd-portal:
+      service-id: welisit-crowd-auth
+      path: /**
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000

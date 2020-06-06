@@ -1,0 +1,20 @@
+server: 
+  port: 4000 
+spring: 
+  profiles:
+    active:
+      - dev
+  application: 
+    name: welisit-crowd-auth
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  redis:
+    host: 127.0.0.1
+  session:
+    store-type: redis
+eureka: 
+  client: 
+    service-url: 
+      defaultZone: http://localhost:1000/eureka
+

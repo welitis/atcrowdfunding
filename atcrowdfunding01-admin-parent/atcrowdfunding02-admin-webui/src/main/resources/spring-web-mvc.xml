@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:component-scan base-package="com.welisit.crowd.mvc"></context:component-scan>
+	<!-- 打开注解 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 配置所有异常统一处理 -->
+	<bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">system-error</prop>
+				<prop key="com.welisit.crowd.exception.AccessForbiddenException">admin-login</prop>
+			</props>
+		</property>
+	</bean>
+		<!-- 注册拦截器 
+	 <mvc:interceptors>
+	 	<mvc:interceptor>
+	 	配置拦截的资源
+	 		<mvc:mapping path="/**"/>
+	 		<mvc:exclude-mapping path="/admin/to/login/page.html"/>
+	 		<mvc:exclude-mapping path="/admin/do/login.html"/>
+	 		<mvc:exclude-mapping path="/admin/to/logout.html"/>
+	 	
+	 		配置拦截器类
+	 		<bean class="com.welisit.crowd.mvc.interceptor.LoginInterceptor"></bean>
+	 	</mvc:interceptor>
+	 </mvc:interceptors> 
+	 -->
+	<!-- 视图路径映射 -->
+	<mvc:view-controller path="/admin/to/login/page.html" view-name="admin-login"/>
+	<mvc:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>
+	<mvc:view-controller path="/admin/to/add/page.html" view-name="admin-add"/>
+	<mvc:view-controller path="/role/to/page.html" view-name="role-page"/>
+	<mvc:view-controller path="/menu/to/page.html" view-name="menu-page"/>
+	
+
+</beans>
