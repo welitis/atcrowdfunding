@@ -17,6 +17,7 @@ import com.welisit.crowd.entity.po.ProjectPO;
 import com.welisit.crowd.entity.po.ReturnPO;
 import com.welisit.crowd.entity.vo.MemberConfirmInfoVO;
 import com.welisit.crowd.entity.vo.MemberLauchInfoVO;
+import com.welisit.crowd.entity.vo.PortalTypeVO;
 import com.welisit.crowd.entity.vo.ProjectVO;
 import com.welisit.crowd.entity.vo.ReturnVO;
 import com.welisit.crowd.mapper.MemberConfirmInfoPOMapper;
@@ -117,5 +118,11 @@ public class ProjectServiceImpl implements ProjectService {
 		memberConfirmInfoPO.setMemberid(memberId);
 		memberConfirmInfoPOMapper.insert(memberConfirmInfoPO);
 
+	}
+
+	@Override
+	public List<PortalTypeVO> getPortalTypeVOList() {
+		
+		return projectPOMapper.selectPortalTypeVOList();
 	}
 }

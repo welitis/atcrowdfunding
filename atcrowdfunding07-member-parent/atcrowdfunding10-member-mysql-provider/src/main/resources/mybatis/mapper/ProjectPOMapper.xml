@@ -28,6 +28,19 @@
 		<result column="header_picture_path"
 			property="headerPicturePath" jdbcType="VARCHAR" />
 	</resultMap>
+	<resultMap type="com.welisit.crowd.entity.vo.PortalTypeVO"
+		id="loadPortalProjectListResultMap"> <!-- 分类数据的常规属性 -->
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="remark" property="remark" />
+		<!-- 分类数据中包含的项目数据的 List -->
+		<!-- property 属性：对应 PortalTypeVO 中分类数据中的项目数据的 List 属性 -->
+		<!-- column 属性：接下来查询项目时需要用到分类 id，就是通过 column 属性把值传入 -->
+		<!-- ofType 属性：项目数据的实体类型 PortalProjectVO -->
+		<collection property="portalProjectVOList" column="id"
+			ofType="com.welisit.crowd.entity.vo.PortalProjectVO"
+			select="com.welisit.crowd.mapper.ProjectPOMapper.selectPortalProjectVOList" />
+	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
 			<foreach collection="oredCriteria" item="criteria"
@@ -43,7 +56,8 @@
 									and ${criterion.condition} #{criterion.value}
 								</when>
 								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
+									and ${criterion.condition} #{criterion.value}
+									and
 									#{criterion.secondValue}
 								</when>
 								<when test="criterion.listValue">
@@ -75,7 +89,8 @@
 									and ${criterion.condition} #{criterion.value}
 								</when>
 								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
+									and ${criterion.condition} #{criterion.value}
+									and
 									#{criterion.secondValue}
 								</when>
 								<when test="criterion.listValue">
@@ -93,10 +108,28 @@
 		</where>
 	</sql>
 	<sql id="Base_Column_List">
-		id, project_name, project_description, money, day, status, deploydate,
+		id, project_name, project_description, money, day, status,
+		deploydate,
 		supportmoney,
-		supporter, completion, memberid, createdate, follower, header_picture_path
+		supporter, completion, memberid, createdate,
+		follower, header_picture_path
 	</sql>
+	<!-- 查询所有分类 -->
+	<select id="selectPortalTypeVOList"
+		resultMap="loadPortalProjectListResultMap"> select id,name,remark from t_type </select>
+	<!-- 通过分类id查询项目 -->
+	<select id="selectPortalProjectVOList"
+		resultType="com.welisit.crowd.entity.vo.PortalProjectVO"> 
+		SELECT t_project.id projectId, project_name projectName,
+		money, deploydate deployDate, supportmoney/money*100 percentage,
+		supporter, header_picture_path headerPicturePath 
+		FROM t_project 
+		LEFT JOIN t_project_type ON t_project.id=t_project_type.projectid 
+		WHERE
+			t_project_type.typeid=#{id} 
+		ORDER BY 
+			t_project.id DESC LIMIT 0,4
+	</select>
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="com.welisit.crowd.entity.po.ProjectPOExample">
 		select
@@ -145,17 +178,23 @@
 	</insert>
 	<insert id="insert"
 		parameterType="com.welisit.crowd.entity.po.ProjectPO">
-		insert into t_project (id, project_name, project_description,
+		insert into t_project (id, project_name,
+		project_description,
 		money, day, status,
-		deploydate, supportmoney, supporter,
+		deploydate, supportmoney,
+		supporter,
 		completion, memberid, createdate,
-		follower, header_picture_path)
-		values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR},
+		follower,
+		header_picture_path)
+		values (#{id,jdbcType=INTEGER},
+		#{projectName,jdbcType=VARCHAR},
 		#{projectDescription,jdbcType=VARCHAR},
-		#{money,jdbcType=BIGINT}, #{day,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+		#{money,jdbcType=BIGINT},
+		#{day,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
 		#{deploydate,jdbcType=VARCHAR}, #{supportmoney,jdbcType=BIGINT},
 		#{supporter,jdbcType=INTEGER},
-		#{completion,jdbcType=INTEGER}, #{memberid,jdbcType=INTEGER}, #{createdate,jdbcType=VARCHAR},
+		#{completion,jdbcType=INTEGER},
+		#{memberid,jdbcType=INTEGER}, #{createdate,jdbcType=VARCHAR},
 		#{follower,jdbcType=INTEGER}, #{headerPicturePath,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective"
@@ -269,7 +308,8 @@
 				project_name = #{record.projectName,jdbcType=VARCHAR},
 			</if>
 			<if test="record.projectDescription != null">
-				project_description = #{record.projectDescription,jdbcType=VARCHAR},
+				project_description =
+				#{record.projectDescription,jdbcType=VARCHAR},
 			</if>
 			<if test="record.money != null">
 				money = #{record.money,jdbcType=BIGINT},
@@ -302,7 +342,8 @@
 				follower = #{record.follower,jdbcType=INTEGER},
 			</if>
 			<if test="record.headerPicturePath != null">
-				header_picture_path = #{record.headerPicturePath,jdbcType=VARCHAR},
+				header_picture_path =
+				#{record.headerPicturePath,jdbcType=VARCHAR},
 			</if>
 		</set>
 		<if test="_parameter != null">
@@ -312,19 +353,30 @@
 	<update id="updateByExample" parameterType="map">
 		update t_project
 		set id = #{record.id,jdbcType=INTEGER},
-		project_name = #{record.projectName,jdbcType=VARCHAR},
-		project_description = #{record.projectDescription,jdbcType=VARCHAR},
-		money = #{record.money,jdbcType=BIGINT},
+		project_name =
+		#{record.projectName,jdbcType=VARCHAR},
+		project_description =
+		#{record.projectDescription,jdbcType=VARCHAR},
+		money =
+		#{record.money,jdbcType=BIGINT},
 		day = #{record.day,jdbcType=INTEGER},
 		status = #{record.status,jdbcType=INTEGER},
-		deploydate = #{record.deploydate,jdbcType=VARCHAR},
-		supportmoney = #{record.supportmoney,jdbcType=BIGINT},
-		supporter = #{record.supporter,jdbcType=INTEGER},
-		completion = #{record.completion,jdbcType=INTEGER},
-		memberid = #{record.memberid,jdbcType=INTEGER},
-		createdate = #{record.createdate,jdbcType=VARCHAR},
-		follower = #{record.follower,jdbcType=INTEGER},
-		header_picture_path = #{record.headerPicturePath,jdbcType=VARCHAR}
+		deploydate =
+		#{record.deploydate,jdbcType=VARCHAR},
+		supportmoney =
+		#{record.supportmoney,jdbcType=BIGINT},
+		supporter =
+		#{record.supporter,jdbcType=INTEGER},
+		completion =
+		#{record.completion,jdbcType=INTEGER},
+		memberid =
+		#{record.memberid,jdbcType=INTEGER},
+		createdate =
+		#{record.createdate,jdbcType=VARCHAR},
+		follower =
+		#{record.follower,jdbcType=INTEGER},
+		header_picture_path =
+		#{record.headerPicturePath,jdbcType=VARCHAR}
 		<if test="_parameter != null">
 			<include refid="Update_By_Example_Where_Clause" />
 		</if>
@@ -337,7 +389,8 @@
 				project_name = #{projectName,jdbcType=VARCHAR},
 			</if>
 			<if test="projectDescription != null">
-				project_description = #{projectDescription,jdbcType=VARCHAR},
+				project_description =
+				#{projectDescription,jdbcType=VARCHAR},
 			</if>
 			<if test="money != null">
 				money = #{money,jdbcType=BIGINT},
@@ -370,7 +423,8 @@
 				follower = #{follower,jdbcType=INTEGER},
 			</if>
 			<if test="headerPicturePath != null">
-				header_picture_path = #{headerPicturePath,jdbcType=VARCHAR},
+				header_picture_path =
+				#{headerPicturePath,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
@@ -378,19 +432,31 @@
 	<update id="updateByPrimaryKey"
 		parameterType="com.welisit.crowd.entity.po.ProjectPO">
 		update t_project
-		set project_name = #{projectName,jdbcType=VARCHAR},
-		project_description = #{projectDescription,jdbcType=VARCHAR},
-		money = #{money,jdbcType=BIGINT},
+		set project_name =
+		#{projectName,jdbcType=VARCHAR},
+		project_description =
+		#{projectDescription,jdbcType=VARCHAR},
+		money =
+		#{money,jdbcType=BIGINT},
 		day = #{day,jdbcType=INTEGER},
-		status = #{status,jdbcType=INTEGER},
-		deploydate = #{deploydate,jdbcType=VARCHAR},
-		supportmoney = #{supportmoney,jdbcType=BIGINT},
-		supporter = #{supporter,jdbcType=INTEGER},
-		completion = #{completion,jdbcType=INTEGER},
-		memberid = #{memberid,jdbcType=INTEGER},
-		createdate = #{createdate,jdbcType=VARCHAR},
-		follower = #{follower,jdbcType=INTEGER},
-		header_picture_path = #{headerPicturePath,jdbcType=VARCHAR}
+		status =
+		#{status,jdbcType=INTEGER},
+		deploydate =
+		#{deploydate,jdbcType=VARCHAR},
+		supportmoney =
+		#{supportmoney,jdbcType=BIGINT},
+		supporter =
+		#{supporter,jdbcType=INTEGER},
+		completion =
+		#{completion,jdbcType=INTEGER},
+		memberid =
+		#{memberid,jdbcType=INTEGER},
+		createdate =
+		#{createdate,jdbcType=VARCHAR},
+		follower =
+		#{follower,jdbcType=INTEGER},
+		header_picture_path =
+		#{headerPicturePath,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 </mapper>

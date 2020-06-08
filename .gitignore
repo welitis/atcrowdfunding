@@ -6,7 +6,8 @@ application-*.yml
 
 # BlueJ files
 *.ctxt
-
+teset/
+testAlibaba/
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

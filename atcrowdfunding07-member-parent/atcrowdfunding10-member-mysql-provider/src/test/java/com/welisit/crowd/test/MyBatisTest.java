@@ -2,6 +2,7 @@ package com.welisit.crowd.test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -15,16 +16,44 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.welisit.crowd.entity.po.MemberPO;
+import com.welisit.crowd.entity.vo.PortalProjectVO;
+import com.welisit.crowd.entity.vo.PortalTypeVO;
 import com.welisit.crowd.mapper.MemberPOMapper;
+import com.welisit.crowd.mapper.ProjectPOMapper;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MyBatisTest {
 	@Autowired
 	private DataSource dataSource;
+	
 	@Autowired
 	private MemberPOMapper memberPOMapper;
+	
+	@Autowired
+	private ProjectPOMapper projectPOMapper;
+	
 	private Logger logger = LoggerFactory.getLogger(MyBatisTest.class);
+	
+	
+	
+	@Test
+	public void testSelect() {
+		List<PortalTypeVO> typeVOList = projectPOMapper.selectPortalTypeVOList();
+		for (PortalTypeVO portalTypeVO : typeVOList) {
+			Integer id = portalTypeVO.getId();
+			String name = portalTypeVO.getName();
+			String remark = portalTypeVO.getRemark();
+			logger.info("id=" +id +" name=" +name + " remark=" +remark);
+			List<PortalProjectVO> portalProjectVOList = portalTypeVO.getPortalProjectVOList();
+			if(portalProjectVOList == null) {
+				continue;
+			}
+			for (PortalProjectVO portalProjectVO : portalProjectVOList) {
+				logger.info(portalProjectVO.toString());
+			}
+		}
+	}
 
 	@Test
 	public void testMapper() {

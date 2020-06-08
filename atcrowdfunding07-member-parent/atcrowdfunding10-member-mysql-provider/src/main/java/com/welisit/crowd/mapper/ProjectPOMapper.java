@@ -2,6 +2,8 @@ package com.welisit.crowd.mapper;
 
 import com.welisit.crowd.entity.po.ProjectPO;
 import com.welisit.crowd.entity.po.ProjectPOExample;
+import com.welisit.crowd.entity.vo.PortalTypeVO;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,4 +33,8 @@ public interface ProjectPOMapper {
 	void insertTypeRelationship(@Param("typeIdList")List<Integer> typeIdList, @Param("projectId")Integer projectId);
 
 	void insertTagRelationship(@Param("tagIdList")List<Integer> tagIdList, @Param("projectId")Integer projectId);
+	
+	List<ProjectPO> selectPortalProjectVOList(Integer projectId);
+	
+	List<PortalTypeVO> selectPortalTypeVOList();
 }
