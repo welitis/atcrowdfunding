@@ -46,6 +46,6 @@ public class ProjectVO implements Serializable {
 	// 回报信息集合
 	private List<ReturnVO> returnVOList;
 	
-	// 发起人确认信息
+	// 发起人易付宝账号确认信息
 	private MemberConfirmInfoVO memberConfirmInfoVO;
 }
