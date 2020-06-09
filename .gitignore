@@ -3,7 +3,7 @@
 application-*.yml
 # Log file
 *.log
-
+alipay.trade.page.pay-JAVA-UTF-8/
 # BlueJ files
 *.ctxt
 teset/

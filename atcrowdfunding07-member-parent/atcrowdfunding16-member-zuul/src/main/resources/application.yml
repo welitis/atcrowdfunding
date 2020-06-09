@@ -21,6 +21,9 @@ zuul:
     crowd-project:
       service-id: welisit-crowd-project
       path: /project/**
+    crowd-order:
+      service-id: welisit-crowd-order
+      path: /order/**
 ribbon:
   ConnectTimeout: 3000
   ReadTimeout: 60000

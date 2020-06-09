@@ -15,7 +15,7 @@ public class DetailReturnVO {
 	// 当前档位需支持的金额
 	private Integer supportMoney;
 	
-	// 单笔限购，取值为0时无限额，取值为1时有限额
+	// 是否设置单笔限购，取值为0时无限额，取值为1时有限额
 	private Integer signalPurchase;
 	
 	// 具体限额数量
