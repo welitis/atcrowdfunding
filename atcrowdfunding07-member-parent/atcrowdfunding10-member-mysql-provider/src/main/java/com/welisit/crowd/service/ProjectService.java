@@ -2,6 +2,7 @@ package com.welisit.crowd.service;
 
 import java.util.List;
 
+import com.welisit.crowd.entity.vo.DetailProjectVO;
 import com.welisit.crowd.entity.vo.PortalTypeVO;
 import com.welisit.crowd.entity.vo.ProjectVO;
 
@@ -14,4 +15,11 @@ public interface ProjectService {
 	 * @return
 	 */
 	List<PortalTypeVO> getPortalTypeVOList();
+	
+	/**
+	 * 获取项目详情根据projectId
+	 * @param projectId
+	 * @return
+	 */
+	DetailProjectVO getDetailProjectVO(Integer projectId);
 }

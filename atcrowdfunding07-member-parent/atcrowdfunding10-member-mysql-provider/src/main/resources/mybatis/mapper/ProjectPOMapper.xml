@@ -28,6 +28,29 @@
 		<result column="header_picture_path"
 			property="headerPicturePath" jdbcType="VARCHAR" />
 	</resultMap>
+	<!-- 项目详情resultmap -->
+	<resultMap type="com.welisit.crowd.entity.vo.DetailProjectVO"
+		id="loadProjectDetailResultMap">
+		<id column="id" property="projectId" />
+		<result column="project_name" property="projectName" />
+		<result column="project_description" property="projectDesc" />
+		<result column="money" property="money" />
+		<result column="status" property="status" />
+		<result column="day" property="day" />
+		<result column="deploydate" property="deployDate" />
+		<result column="supportmoney" property="supportMoney" />
+		<result column="follower" property="followerCount" />
+		<result column="supporter" property="supporterCount" />
+		<result column="header_picture_path"
+			property="headerPicturePath" />
+		<collection property="detailPicturePathList"
+			select="com.welisit.crowd.mapper.ProjectPOMapper.selectDetailPicturePath"
+			column="id" />
+
+		<collection property="detailReturnVOList"
+			select="com.welisit.crowd.mapper.ProjectPOMapper.selectDeatailReturnVO"
+			column="id" />
+	</resultMap>
 	<resultMap type="com.welisit.crowd.entity.vo.PortalTypeVO"
 		id="loadPortalProjectListResultMap"> <!-- 分类数据的常规属性 -->
 		<id column="id" property="id" />
@@ -114,21 +137,59 @@
 		supporter, completion, memberid, createdate,
 		follower, header_picture_path
 	</sql>
+	<select id="selectDetailPicturePath" resultType="string">
+		SELECT item_pic_path FROM t_project_item_pic WHERE projectid=#{id}
+	</select>
+	<!-- 查询项目详情 -->
+	<select id="selectDeatailReturnVO" resultType="com.welisit.crowd.entity.vo.DetailReturnVO">
+		select
+			id returnId,
+			supportmoney supportMoney, 
+			content, 
+			signalpurchase signalPurchase, 
+			purchase, 
+			freight, 
+			returndate returnDate
+		from t_return
+		where projectid=#{id}
+	</select>
+	
+	<select id="selectDetailProjectVO" resultMap="loadProjectDetailResultMap">
+		select 
+			id,
+			project_name,
+			project_description ,
+			money,
+			status,
+			day,
+			deploydate,
+			supportmoney,
+			supporter,
+			supportmoney/money*100 percentage,
+			follower,
+			header_picture_path
+		from 
+			t_project
+		where id=#{projectId}
+	</select>
+	
 	<!-- 查询所有分类 -->
 	<select id="selectPortalTypeVOList"
 		resultMap="loadPortalProjectListResultMap"> select id,name,remark from t_type </select>
 	<!-- 通过分类id查询项目 -->
 	<select id="selectPortalProjectVOList"
-		resultType="com.welisit.crowd.entity.vo.PortalProjectVO"> 
+		resultType="com.welisit.crowd.entity.vo.PortalProjectVO">
 		SELECT t_project.id projectId, project_name projectName,
-		money, deploydate deployDate, supportmoney/money*100 percentage,
-		supporter, header_picture_path headerPicturePath 
-		FROM t_project 
-		LEFT JOIN t_project_type ON t_project.id=t_project_type.projectid 
+		money, deploydate
+		deployDate, supportmoney/money*100 percentage,
+		supporter,
+		header_picture_path headerPicturePath
+		FROM t_project
+		LEFT JOIN t_project_type ON t_project.id=t_project_type.projectid
 		WHERE
-			t_project_type.typeid=#{id} 
-		ORDER BY 
-			t_project.id DESC LIMIT 0,4
+		t_project_type.typeid=#{id}
+		ORDER BY
+		t_project.id DESC LIMIT 0,4
 	</select>
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="com.welisit.crowd.entity.po.ProjectPOExample">

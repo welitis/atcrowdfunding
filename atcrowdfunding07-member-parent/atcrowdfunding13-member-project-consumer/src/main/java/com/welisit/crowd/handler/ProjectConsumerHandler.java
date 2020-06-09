@@ -6,10 +6,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.welisit.crowd.api.MySQLRemoteService;
 import com.welisit.crowd.config.OSSProperties;
 import com.welisit.crowd.constant.CrowdConstant;
-import com.welisit.crowd.entity.po.ProjectPO;
+import com.welisit.crowd.entity.vo.DetailProjectVO;
 import com.welisit.crowd.entity.vo.MemberConfirmInfoVO;
 import com.welisit.crowd.entity.vo.MemberLoginVO;
 import com.welisit.crowd.entity.vo.ProjectVO;
@@ -35,6 +36,20 @@ public class ProjectConsumerHandler {
 	
 	@Autowired
 	private MySQLRemoteService mySQLRemoteService;
+	
+	@RequestMapping("/get/project/detail/{projectId}")
+	public String getProjectDetail(@PathVariable("projectId") Integer projectId, Model model) {
+		
+		ResultEntity<DetailProjectVO> resultEntity = mySQLRemoteService.getDetailProjectVORemote(projectId);
+		
+		if(ResultEntity.SUCCESS.equals(resultEntity.getResult())) {
+			DetailProjectVO detailProjectVO = resultEntity.getData();
+			
+			model.addAttribute("detailProjectVO", detailProjectVO);
+		}
+		
+		return "project-show-detail";
+	}
 	
 	@RequestMapping("/create/project/information")
 	public String saveProjectBasicInfo(

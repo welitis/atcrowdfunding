@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.welisit.crowd.entity.po.MemberPO;
+import com.welisit.crowd.entity.vo.DetailProjectVO;
 import com.welisit.crowd.entity.vo.PortalProjectVO;
 import com.welisit.crowd.entity.vo.PortalTypeVO;
 import com.welisit.crowd.mapper.MemberPOMapper;
@@ -35,7 +36,11 @@ public class MyBatisTest {
 	
 	private Logger logger = LoggerFactory.getLogger(MyBatisTest.class);
 	
-	
+	@Test
+	public void testDetailProjectVO() {
+		DetailProjectVO detailProjectVO = projectPOMapper.selectDetailProjectVO(1);
+		logger.info(detailProjectVO.toString());
+	}
 	
 	@Test
 	public void testSelect() {
