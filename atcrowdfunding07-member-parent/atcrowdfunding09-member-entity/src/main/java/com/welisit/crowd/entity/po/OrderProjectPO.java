@@ -1,5 +1,10 @@
 package com.welisit.crowd.entity.po;
 
+/**
+ * 订单项目详情
+ * @author Administrator
+ *
+ */
 public class OrderProjectPO {
     private Integer id;
 

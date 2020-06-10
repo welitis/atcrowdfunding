@@ -7,7 +7,7 @@ public class ProjectPO {
 
     private String projectDescription;
 
-    private Long money;
+    private Integer money;
 
     private Integer day;
 
@@ -53,11 +53,11 @@ public class ProjectPO {
         this.projectDescription = projectDescription == null ? null : projectDescription.trim();
     }
 
-    public Long getMoney() {
+    public Integer getMoney() {
         return money;
     }
 
-    public void setMoney(Long money) {
+    public void setMoney(Integer money) {
         this.money = money;
     }
 

@@ -148,10 +148,10 @@
 											class="glyphicon glyphicon-tag"></i> [[${detailProjectVO.statusText}]]</span>
 									</div>
 									<div class="panel-body">
-										<h3>已筹资金：￥[[${detailProjectVO.supportMoney}]]</h3>
+										<h3>已筹资金：￥[[${detailProjectVO.supportMoney==null?0:detailProjectVO.supportMoney}]]</h3>
 										<p>
-											<span>目标金额 ： [[${detailProjectVO.money}]]</span><span style="float: right;">达成
-												： [[${detailProjectVO.percentage}]]%</span>
+											<span>目标金额 ： [[${detailProjectVO.money==null?0:detailProjectVO.money}]]</span><span style="float: right;">达成
+												： [[${detailProjectVO.percentage==null?0:detailProjectVO.percentage}]]%</span>
 										</p>
 										<div class="progress"
 											style="height: 10px; margin-bottom: 5px;">
@@ -162,7 +162,7 @@
 										<p>剩余 [[${detailProjectVO.lastDay}]] 天</p>
 										<div>
 											<p>
-												<span>已有[[${detailProjectVO.supporterCount}]]人支持该项目
+												<span>已有[[${detailProjectVO.supporterCount==null?0:detailProjectVO.supporterCount}]]人支持该项目
 											</p>
 											<button type="button"
 												class="btn  btn-warning btn-lg btn-block"

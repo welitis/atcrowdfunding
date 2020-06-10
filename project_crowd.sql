@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : desktop
+ Source Server         : localhost2
  Source Server Type    : MySQL
- Source Server Version : 80014
+ Source Server Version : 50727
  Source Host           : localhost:3306
  Source Schema         : project_crowd
 
  Target Server Type    : MySQL
- Target Server Version : 80014
+ Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 08/06/2020 08:44:44
+ Date: 10/06/2020 18:40:50
 */
 
 SET NAMES utf8mb4;
@@ -63,6 +63,24 @@ INSERT INTO `inner_role_auth` VALUES (5, 248, 4);
 INSERT INTO `inner_role_auth` VALUES (6, 248, 5);
 INSERT INTO `inner_role_auth` VALUES (7, 246, 1);
 INSERT INTO `inner_role_auth` VALUES (8, 246, 8);
+
+-- ----------------------------
+-- Table structure for t_address
+-- ----------------------------
+DROP TABLE IF EXISTS `t_address`;
+CREATE TABLE `t_address`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `receive_name` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '收件人',
+  `phone_num` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '手机号',
+  `address` char(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '收货地址',
+  `member_id` int(11) NULL DEFAULT NULL COMMENT '用户 id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_address
+-- ----------------------------
+INSERT INTO `t_address` VALUES (1, '张三', '17728094439', '北京市', 2);
 
 -- ----------------------------
 -- Table structure for t_admin
@@ -380,7 +398,7 @@ CREATE TABLE `t_member_confirm_info`  (
 -- ----------------------------
 -- Records of t_member_confirm_info
 -- ----------------------------
-INSERT INTO `t_member_confirm_info` VALUES (1, 2, '11', '12');
+INSERT INTO `t_member_confirm_info` VALUES (1, 2, '123', '111');
 
 -- ----------------------------
 -- Table structure for t_member_launch_info
@@ -438,6 +456,38 @@ INSERT INTO `t_menu` VALUES (18, 11, ' 项目标签', 'tag/index.htm', 'glyphico
 INSERT INTO `t_menu` VALUES (19, 1, ' 参数管理', 'param/index.htm', 'glyphicon glyphicon-list-alt');
 
 -- ----------------------------
+-- Table structure for t_order
+-- ----------------------------
+DROP TABLE IF EXISTS `t_order`;
+CREATE TABLE `t_order`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_num` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '订单号',
+  `pay_order_num` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '支付宝流水号',
+  `order_amount` double(10, 5) NULL DEFAULT NULL COMMENT '订单金额',
+  `invoice` int(11) NULL DEFAULT NULL COMMENT '是否开发票（0 不开，1 开）',
+  `invoice_title` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发票抬头',
+  `order_remark` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '订单备注',
+  `address_id` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '收货地址 id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for t_order_project
+-- ----------------------------
+DROP TABLE IF EXISTS `t_order_project`;
+CREATE TABLE `t_order_project`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `project_name` char(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '项目名称',
+  `launch_name` char(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发起人',
+  `return_content` char(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '回报内容',
+  `return_count` int(11) NULL DEFAULT NULL COMMENT '回报数量',
+  `support_price` int(11) NULL DEFAULT NULL COMMENT '支持单价',
+  `freight` int(11) NULL DEFAULT NULL COMMENT '配送费用',
+  `order_id` int(11) NULL DEFAULT NULL COMMENT '订单表的主键',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for t_project
 -- ----------------------------
 DROP TABLE IF EXISTS `t_project`;
@@ -462,7 +512,7 @@ CREATE TABLE `t_project`  (
 -- ----------------------------
 -- Records of t_project
 -- ----------------------------
-INSERT INTO `t_project` VALUES (1, 'brotherMao', '就是帅！', NULL, 30, 0, NULL, NULL, NULL, NULL, 2, '2020-06-07', NULL, 'http://atguigu190830.oss-cn-shenzhen.aliyuncs.com/20200607/7b54481f08e341c4a33a9d5eedf890f6.jpg');
+INSERT INTO `t_project` VALUES (1, 'brotherMao', '就是帅！', 100000, 30, 0, '2020-06-10', NULL, NULL, NULL, 2, '2020-06-10', NULL, 'http://atguigu190830.oss-cn-shenzhen.aliyuncs.com/20200610/f218f9b03f32474cb1f5e282d7d79d60.png');
 
 -- ----------------------------
 -- Table structure for t_project_item_pic
@@ -473,13 +523,12 @@ CREATE TABLE `t_project_item_pic`  (
   `projectid` int(11) NULL DEFAULT NULL,
   `item_pic_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_project_item_pic
 -- ----------------------------
-INSERT INTO `t_project_item_pic` VALUES (1, 1, 'http://atguigu190830.oss-cn-shenzhen.aliyuncs.com/20200607/feb53fe3c4fd4b61aca192b06e7fbd58.png');
-INSERT INTO `t_project_item_pic` VALUES (2, 1, 'http://atguigu190830.oss-cn-shenzhen.aliyuncs.com/20200607/e60cb9ca4511443da4e29b083ebb4554.png');
+INSERT INTO `t_project_item_pic` VALUES (1, 1, 'http://atguigu190830.oss-cn-shenzhen.aliyuncs.com/20200610/1f545c7c2bc24b2bb451eaf6b28df7b8.png');
 
 -- ----------------------------
 -- Table structure for t_project_tag
@@ -495,7 +544,7 @@ CREATE TABLE `t_project_tag`  (
 -- ----------------------------
 -- Records of t_project_tag
 -- ----------------------------
-INSERT INTO `t_project_tag` VALUES (1, 1, 9);
+INSERT INTO `t_project_tag` VALUES (1, 1, 4);
 
 -- ----------------------------
 -- Table structure for t_project_type
@@ -537,7 +586,7 @@ CREATE TABLE `t_return`  (
 -- ----------------------------
 -- Records of t_return
 -- ----------------------------
-INSERT INTO `t_return` VALUES (1, 1, 1, 10, '以身相许', 5, 1, 8, 0, 0, 15, 'http://atguigu190830.oss-cn-shenzhen.aliyuncs.com/20200607/cb9423ed5a8d4ba49822c96ec0449723.png');
+INSERT INTO `t_return` VALUES (1, 1, 0, 10, '以身相许', 5, 0, 8, 0, 0, 15, 'http://atguigu190830.oss-cn-shenzhen.aliyuncs.com/20200610/a0e3d0afb86f4df7ba1811694fa70591.png');
 
 -- ----------------------------
 -- Table structure for t_role

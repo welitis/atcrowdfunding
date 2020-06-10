@@ -11,6 +11,22 @@
     <result column="freight" property="freight" jdbcType="INTEGER" />
     <result column="order_id" property="orderId" jdbcType="INTEGER" />
   </resultMap>
+  	<select id="selectOrderProjectVO" resultType="com.welisit.crowd.entity.vo.OrderProjectVO">
+		SELECT DISTINCT 
+			project_name projectName,
+			content returnContent,
+			`description_simple` launchName,
+			t_return.`supportmoney` supportPrice,
+			`freight` freight,
+			`count` returnCount,
+			`signalpurchase` signalPurchase,
+			`purchase` purchase
+		FROM t_project 
+			LEFT JOIN t_member_launch_info ON t_project.memberid=t_member_launch_info.memberid 
+			LEFT JOIN t_return ON t_project.id=t_return.projectid
+		WHERE t_return.id=#{returnId}
+	</select>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
