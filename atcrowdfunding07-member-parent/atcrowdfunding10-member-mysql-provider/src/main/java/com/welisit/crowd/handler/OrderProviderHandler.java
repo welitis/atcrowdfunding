@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.welisit.crowd.entity.vo.AddressVO;
 import com.welisit.crowd.entity.vo.OrderProjectVO;
+import com.welisit.crowd.entity.vo.OrderVO;
 import com.welisit.crowd.service.OrderService;
 import com.welisit.crowd.util.ResultEntity;
 
@@ -18,6 +19,22 @@ public class OrderProviderHandler {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@RequestMapping("/save/order/remote")
+	ResultEntity<String> saveOrderRemote(@RequestBody OrderVO orderVO) {
+		
+		try {
+			orderService.saveOrder(orderVO);
+			
+			return ResultEntity.successWithoutData();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			return ResultEntity.failed(e.getMessage());
+		}
+		
+	}
 	
 	@RequestMapping("/save/address/remote")
 	public ResultEntity<String> saveAddressRemote(@RequestBody AddressVO addressVO) {

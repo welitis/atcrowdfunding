@@ -24,6 +24,9 @@ zuul:
     crowd-order:
       service-id: welisit-crowd-order
       path: /order/**
+    crowd-pay:
+      service-id: welisit-crowd-pay
+      path: /pay/**
 ribbon:
   ConnectTimeout: 3000
   ReadTimeout: 60000

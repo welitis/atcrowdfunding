@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.welisit.crowd.entity.vo.AddressVO;
 import com.welisit.crowd.entity.vo.OrderProjectVO;
+import com.welisit.crowd.entity.vo.OrderVO;
 
 public interface OrderService {
 
@@ -12,5 +13,7 @@ public interface OrderService {
 	List<AddressVO> getAddressVOList(Integer memberId);
 
 	void saveAddress(AddressVO addressVO);
+
+	void saveOrder(OrderVO orderVO);
 
 }

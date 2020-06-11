@@ -12,6 +12,7 @@ import com.welisit.crowd.entity.po.MemberPO;
 import com.welisit.crowd.entity.vo.AddressVO;
 import com.welisit.crowd.entity.vo.DetailProjectVO;
 import com.welisit.crowd.entity.vo.OrderProjectVO;
+import com.welisit.crowd.entity.vo.OrderVO;
 import com.welisit.crowd.entity.vo.PortalTypeVO;
 import com.welisit.crowd.entity.vo.ProjectVO;
 import com.welisit.crowd.util.ResultEntity;
@@ -43,5 +44,8 @@ public interface MySQLRemoteService {
 
 	@RequestMapping("/save/address/remote")
 	ResultEntity<String> saveAddressRemote(@RequestBody AddressVO addressVO);
+
+	@RequestMapping("/save/order/remote")
+	ResultEntity<String> saveOrderRemote(@RequestBody OrderVO orderVO);
 
 }

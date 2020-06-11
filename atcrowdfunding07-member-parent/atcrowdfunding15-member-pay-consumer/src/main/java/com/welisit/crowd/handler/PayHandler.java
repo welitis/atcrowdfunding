@@ -26,6 +26,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.welisit.crowd.api.MySQLRemoteService;
 import com.welisit.crowd.config.PayProperties;
 import com.welisit.crowd.entity.vo.OrderProjectVO;
+import com.welisit.crowd.entity.vo.OrderVO;
 import com.welisit.crowd.util.ResultEntity;
 
 @Controller
@@ -39,8 +40,15 @@ public class PayHandler {
 	
 	private Logger logger = LoggerFactory.getLogger(PayHandler.class);
 	
+	@ResponseBody
+	@RequestMapping("/hello")
+	public String tests() {
+		logger.info("hello world");
+		return "success";
+	}
+	
 	@RequestMapping("/notify")
-	public void notifyUrlMethod(HttpServletRequest request) throws UnsupportedEncodingException, AlipayApiException {
+	public String notifyUrlMethod(HttpServletRequest request) throws UnsupportedEncodingException, AlipayApiException {
 		
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -85,6 +93,7 @@ public class PayHandler {
 			logger.info("out_trade_no="+out_trade_no);
 			logger.info("trade_no="+trade_no);
 			logger.info("trade_status="+trade_status);
+			return "success";
 			
 		}else {//验证失败
 			//调试用，写文本函数记录程序运行情况是否正常
@@ -92,6 +101,7 @@ public class PayHandler {
 			//AlipayConfig.logResult(sWord);
 			
 			logger.info("验证失败");
+			return "fail";
 		}
 		
 	}
