@@ -14,7 +14,7 @@
 
 	<properties>
 		<!-- 声明属性，对Spring 的版本进行统一管理 -->
-		<welisit.spring.version>4.3.21.RELEASE</welisit.spring.version>
+		<welisit.spring.version>5.2.20.RELEASE</welisit.spring.version>
 		<!-- 声明属性，对SpringSecurity 的版本进行统一管理 -->
 		<welisit.spring.security.version>4.2.10.RELEASE</welisit.spring.security.version>
 	</properties>
